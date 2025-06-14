@@ -8,7 +8,7 @@ from datetime import datetime
 
 
 class Config:
-    """除外設定を管理する階級"""
+    """除外設定を管理するクラス"""
 
     IGNORE_NAMES: Set[str] = {
         ".git",
