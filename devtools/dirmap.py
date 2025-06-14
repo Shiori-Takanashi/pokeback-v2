@@ -53,6 +53,6 @@ with open(outsfile_secret, "w", encoding="utf-8") as file:
 with open(outsfile_candidates, "w", encoding="utf-8") as file:
     file.write("\n".join(sorted(candidates_dirs)))
 
-outs_dir = outs_dir.resolve().parent.parent / "dev"
+new_outs_dir = outs_dir.resolve().parent.parent / "dev"
 
-outs_dir.mkdir(exist_ok=True)
+new_outs_dir.mkdir(exist_ok=True)
