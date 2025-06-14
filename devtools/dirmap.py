@@ -1,7 +1,7 @@
 from pathlib import Path
 
 root = Path("/home/shiori/allprojects/azureprojects/pokeback-v2/")
-outs_dir = root / "dev" / "outs" / "dirmaps"
+outs_dir = root / "devtools" / "outs" / "dirmaps"
 outs_dir.mkdir(parents=True, exist_ok=True)
 
 
@@ -28,18 +28,9 @@ secret_dirs = [
 ]
 
 
-candidates_dirs = [
-    dirfullpath.name
-    for dirfullpath in root.iterdir()
-    if dirfullpath.is_dir()
-    if not "_" in dirfullpath.name
-]
-
-
 outsfile_general = outs_dir / "general_dirs.txt"
 outsfile_app = outs_dir / "app_dirs.txt"
 outsfile_secret = outs_dir / "secret_dirs.txt"
-outsfile_candidates = outs_dir / "candidates_dirs.txt"
 
 with open(outsfile_general, "w", encoding="utf-8") as file:
     file.write("\n".join(sorted(general_dirs)))
@@ -49,10 +40,3 @@ with open(outsfile_app, "w", encoding="utf-8") as file:
 
 with open(outsfile_secret, "w", encoding="utf-8") as file:
     file.write("\n".join(sorted(secret_dirs)))
-
-with open(outsfile_candidates, "w", encoding="utf-8") as file:
-    file.write("\n".join(sorted(candidates_dirs)))
-
-new_outs_dir = outs_dir.resolve().parent.parent / "dev"
-
-new_outs_dir.mkdir(exist_ok=True)
