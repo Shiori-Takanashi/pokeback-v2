@@ -1,5 +1,4 @@
 from pathlib import Path
-import os
 
 root = Path("/home/shiori/allprojects/azureprojects/pokeback-v2/")
 outs_dir = root / "dev" / "outs" / "dirmaps"
