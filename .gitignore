@@ -196,7 +196,7 @@ cython_debug/
 .secret
 
 # 全ての note ファイルを無視
-notes/note*.md
+exports/notes/note*.md
 
 # ただし、下一桁が 1 のファイルだけ除外（追跡対象にする）
-!notes/note?1.md
+!exports/notes/note?1.md
