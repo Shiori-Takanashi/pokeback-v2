@@ -3,7 +3,7 @@ import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = "django-insecure-adi$fbn5csar0$6jyaadm7)75l1ioj--z$iw%5kjih(+6f=n^="
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "django-insecure-fallback-key-for-dev-only")
 
 DEBUG = os.getenv("DJANGO_DEBUG", "False").lower() in ("true", "1", "t")
 
