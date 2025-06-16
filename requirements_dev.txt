@@ -14,6 +14,7 @@ click==8.2.1
 coverage==7.9.0
 cryptography==45.0.4
 defusedxml==0.7.1
+dj-database-url==2.3.0
 Django==5.2.3
 django-cors-headers==4.7.0
 django-filter==25.1
@@ -60,4 +61,5 @@ types-PyYAML==6.0.12.20250516
 types-requests==2.32.4.20250611
 typing_extensions==4.14.0
 urllib3==2.4.0
+whitenoise==6.8.2
 yarl==1.20.1

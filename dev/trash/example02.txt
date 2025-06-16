@@ -1,0 +1,7 @@
+docker run --rm -it \
+  --env-file /opt/secrets/pokeback-v2.env \
+  -v $(pwd):/app \
+  -v $(pwd)/staticfiles:/app/staticfiles \
+  -p 8000:8000 \
+  pokeback-v2 \
+  python manage.py runserver 0.0.0.0:8000

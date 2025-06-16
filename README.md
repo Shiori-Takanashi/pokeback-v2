@@ -5,6 +5,61 @@
 pokeback-v1で、アーキテクチャ設計の大枠は完成したので、
 プロジェクトの進捗を丁寧に記録しながら、v2を完成させていきます。
 
+## 🚀 クイックスタート
+
+### Docker環境での起動（推奨）
+
+```bash
+# 1. Docker Composeで起動
+docker compose up -d
+
+# または起動スクリプトを使用
+./scripts/docker-compose-run.sh
+```
+
+### ローカル環境での起動（PostgreSQL）
+
+```bash
+# 1. PostgreSQLセットアップ（初回のみ）
+./scripts/setup-postgres.sh
+
+# 2. 仮想環境をアクティベート
+source .venv/bin/activate
+
+# 3. ローカルサーバー起動
+./scripts/run-local.sh
+```
+
+## � セキュリティ設定
+
+### 初回セットアップ
+```bash
+# 1. 環境設定ファイルの作成
+cp .env.example .env.local  # ローカル環境用
+cp .env.example .env.docker # Docker環境用
+
+# 2. 機密情報の設定（必須）
+nano .env.local  # SECRET_KEYとパスワードを変更
+```
+
+### ⚠️ 重要事項
+- `.env.*`ファイルには実際の機密情報を設定してください
+- これらのファイルはGitにコミットされません（`.gitignore`で除外済み）
+- 詳細は [`docs/SECURITY.md`](docs/SECURITY.md) を参照
+
+## �📁 ファイル構成
+
+### 設定ファイル
+- `.env.example` - 設定テンプレート（機密情報なし）
+- `.env.local` - ローカル開発環境用（要設定）
+- `.env.docker` - Docker環境用（要設定）
+
+設定の優先順位: `.env.local` > `.env.docker` > デフォルト値
+
+### スクリプトファイル
+- `scripts/` - 各種起動・セットアップスクリプト
+- 詳細は [`scripts/README.md`](scripts/README.md) を参照
+
 
 ## 第01項目（必須機能）
 

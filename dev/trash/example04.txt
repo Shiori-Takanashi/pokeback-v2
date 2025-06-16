@@ -1,0 +1,11 @@
+(.venv) shiori@surface-shiori:~/allprojects/azureprojects/pokeback-v2$ cd staticfiles
+(.venv) shiori@surface-shiori:~/allprojects/azureprojects/pokeback-v2/staticfiles$ ls
+admin
+(.venv) shiori@surface-shiori:~/allprojects/azureprojects/pokeback-v2/staticfiles$ cd admin
+(.venv) shiori@surface-shiori:~/allprojects/azureprojects/pokeback-v2/staticfiles/admin$ ls
+css  img  js
+(.venv) shiori@surface-shiori:~/allprojects/azureprojects/pokeback-v2/staticfiles/admin$ cd css
+(.venv) shiori@surface-shiori:~/allprojects/azureprojects/pokeback-v2/staticfiles/admin/css$ ls
+autocomplete.css  dark_mode.css  login.css        responsive_rtl.css           vendor
+base.css          dashboard.css  nav_sidebar.css  rtl.css                      widgets.css
+changelists.css   forms.css      responsive.css   unusable_password_field.css

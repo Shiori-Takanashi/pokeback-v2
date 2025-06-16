@@ -1,0 +1,58 @@
+# ===================================================================
+# Docker Compose設定ファイル - Pokemon API バックエンドサーバー
+# ===================================================================
+# このファイルはDjangoアプリケーションとPostgreSQLデータベースを
+# Docker環境で実行するための設定を定義しています。
+#
+# 使用方法：
+#   docker compose up -d      # バックグラウンドで起動
+#   docker compose down       # 停止
+#   docker compose logs web   # Webサーバーのログを確認
+# ===================================================================
+
+services:
+  # PostgreSQLデータベースサービス
+  db:
+    image: postgres:16  # PostgreSQL 16を使用
+    environment:
+      # データベース接続情報
+      # ⚠️ 実際の使用時は機密情報を環境変数ファイルから読み込むか、
+      # より安全な方法で管理してください
+      POSTGRES_DB: pokeback
+      POSTGRES_USER: ${POSTGRES_USER:-dbuser}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-CHANGE_THIS_PASSWORD}
+    volumes:
+      # データ永続化のためのボリューム
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      # ホストの5433ポートをコンテナの5432ポートにマッピング
+      # （ローカルのPostgreSQLとの競合を避けるため）
+      - "5433:5432"
+    healthcheck:
+      # データベースの健全性チェック
+      test: ["CMD-SHELL", "pg_isready -U shiori -d pokeback"]
+      interval: 30s  # 30秒間隔でチェック
+      timeout: 10s   # 10秒でタイムアウト
+      retries: 3     # 3回まで再試行
+
+  # Django Webアプリケーションサービス
+  web:
+    build: .  # 現在のディレクトリのDockerfileを使用してビルド
+    command: sh /app/scripts/startup.sh  # 起動時に実行するコマンド
+    volumes:
+      # 静的ファイル用ディレクトリをマウント
+      - ./staticfiles:/app/staticfiles
+    ports:
+      # ホストの8000ポートをコンテナの8000ポートにマッピング
+      - "8000:8000"
+    env_file:
+      # Docker用の環境変数ファイルを読み込み
+      - .env.docker
+    depends_on:
+      # データベースが健全な状態になってからWebサービスを開始
+      db:
+        condition: service_healthy
+
+# 永続化ボリュームの定義
+volumes:
+  postgres_data:  # PostgreSQLデータ用の永続化ボリューム

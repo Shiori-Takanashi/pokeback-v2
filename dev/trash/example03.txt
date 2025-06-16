@@ -1,0 +1,13 @@
+shiori@surface-shiori:/opt/secrets$ ls
+pokeback-v2.env
+shiori@surface-shiori:/opt/secrets$ nano pokeback-v2.env
+
+DJANGO_SECRET_KEY=???
+DJANGO_DEBUG=False
+DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1
+
+POSTGRES_DB=pokeback
+POSTGRES_USER=shiori
+POSTGRES_PASSWORD=Obear0311
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432

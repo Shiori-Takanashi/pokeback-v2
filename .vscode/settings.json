@@ -1,0 +1,23 @@
+{
+    "files.associations": {
+        "**/.env*": "dotenv",
+        "*.env": "dotenv",
+        ".env": "dotenv",
+        ".env.*": "dotenv",
+        ".env.docker": "dotenv",
+        ".env.local": "dotenv",
+        ".env.example": "dotenv",
+        ".env.production": "dotenv",
+        ".env.development": "dotenv"
+    },
+    "workbench.iconTheme": "material-icon-theme",
+    "material-icon-theme.files.associations": {
+        ".env.docker": "tune",
+        ".env.local": "tune",
+        ".env.example": "tune"
+    },
+    "material-icon-theme.folders.associations": {},
+    "[dotenv]": {
+        "editor.defaultFormatter": null
+    }
+}

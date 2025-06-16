@@ -1,0 +1,70 @@
+# ===================================================================
+# .dockerignore - Docker build除外ファイル
+# ===================================================================
+# このファイルはDocker buildの際にコンテキストから除外するファイルや
+# ディレクトリを指定し、ビルド速度を向上させ、イメージサイズを削減します。
+# ===================================================================
+
+# Git関連ファイル
+.git
+.gitignore
+README.md
+
+# Python関連
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Django関連
+*.log
+local_settings.py
+db.sqlite3
+media/
+
+# 開発・テスト関連
+.coverage
+.pytest_cache/
+.tox/
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# IDE関連
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS関連
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Docker関連（無限ループを避ける）
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# その他
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 一時ファイル
+*.tmp
+*.temp
