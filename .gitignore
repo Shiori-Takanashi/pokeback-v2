@@ -164,5 +164,5 @@ cython_debug/
 .secret
 
 # Notes
-exports/notes/note*.md
-!exports/notes/note?1.md
+notes/note*.md
+!notes/note?1.md
