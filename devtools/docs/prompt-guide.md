@@ -182,6 +182,181 @@ fi
 2. **セッション限定**: 設定はターミナルセッション終了まで有効
 3. **Git情報の更新**: ブランチ変更後は手動でプロンプトを再設定することを推奨
 
-## 🔍 トラブルシューティング
 
-問題が発生した場合は [`troubleshooting.md`](troubleshooting.md) を参照してください。
+## カスタマイズガイド
+
+スクリプトの拡張とカスタマイズ方法について説明します。
+
+
+### 新しいプロンプトスタイルの追加
+
+`scripts/prompt.sh` に新しいプロンプト設定を追加する方法：
+
+```bash
+# scripts/prompt.sh に追加する関数
+set_custom_prompt() {
+    export PS1="[$(date +%H:%M)] \W$ "
+    echo -e "${GREEN}✅ 時刻付きプロンプトに変更しました${NC}"
+}
+
+# main関数のcase文に追加
+case "${1:-list}" in
+    # ...existing cases...
+    "time"|"t")
+        set_custom_prompt
+        ;;
+    # ...
+esac
+```
+
+### 条件付きプロンプト設定
+
+環境や状況に応じて自動的にプロンプトを変更：
+
+```bash
+# プロジェクト別プロンプト
+set_project_prompt() {
+    local project_name=$(basename "$PWD")
+    case "$project_name" in
+        "pokeback-v2")
+            export PS1="🐾 \W\$(get_git_info)$ "
+            ;;
+        "frontend-app")
+            export PS1="⚛️  \W\$(get_git_info)$ "
+            ;;
+        *)
+            export PS1="\W$ "
+            ;;
+    esac
+}
+```
+
+### 高度なGit情報表示
+
+Git情報をより詳細に表示：
+
+```bash
+get_advanced_git_info() {
+    local git_info=""
+    if git rev-parse --git-dir > /dev/null 2>&1; then
+        local branch=$(git branch --show-current 2>/dev/null)
+        local status=$(git status --porcelain 2>/dev/null)
+        local ahead=$(git rev-list --count @{upstream}..HEAD 2>/dev/null)
+        local behind=$(git rev-list --count HEAD..@{upstream} 2>/dev/null)
+
+        git_info=" ($branch"
+
+        # 未コミット変更
+        if [[ -n "$status" ]]; then
+            git_info+="*"
+        fi
+
+        # リモートとの差分
+        if [[ -n "$ahead" && "$ahead" -gt 0 ]]; then
+            git_info+="↑$ahead"
+        fi
+        if [[ -n "$behind" && "$behind" -gt 0 ]]; then
+            git_info+="↓$behind"
+        fi
+
+        git_info+=")"
+    fi
+    echo "$git_info"
+}
+```
+
+### カラーテーマのカスタマイズ
+
+独自のカラーテーマを作成：
+
+```bash
+# カスタムカラー定義
+ORANGE='\033[0;33m'
+PINK='\033[1;35m'
+GRAY='\033[0;37m'
+
+set_custom_colorful_prompt() {
+    export PS1="\[${ORANGE}\]\u\[${GRAY}\]@\[${PINK}\]\h\[${GRAY}\]:\[${BLUE}\]\W\[${PURPLE}\]\$(get_git_info)\[${NC}\]$ "
+    echo -e "${GREEN}✅ カスタムカラープロンプトに変更しました${NC}"
+}
+```
+
+
+## トラブルシューティングガイド
+
+### プロンプトが変更されない
+
+**症状**: `source scripts/prompt.sh simple` を実行してもプロンプトが変わらない
+
+**原因と解決策**:
+
+1. **sourceコマンドを使用していない**
+   ```bash
+   # ❌ 間違い
+   ./scripts/prompt.sh simple
+   bash scripts/prompt.sh simple
+
+   # ✅ 正しい
+   source scripts/prompt.sh simple
+   ```
+
+2. **スクリプトのパスが間違っている**
+   ```bash
+   # 現在のディレクトリを確認
+   pwd
+   ls scripts/prompt.sh
+
+   # 正しいパスで実行
+   source scripts/prompt.sh simple
+   ```
+
+3. **権限問題**
+   ```bash
+   # スクリプトを実行可能にする
+   chmod +x scripts/prompt.sh
+   ```
+
+### Git情報が表示されない
+
+**症状**: `psg` を実行してもGit情報（ブランチ名）が表示されない
+
+**解決策**:
+
+1. **Gitリポジトリ内にいることを確認**
+   ```bash
+   git status
+   # "not a git repository" エラーが出る場合は、Gitリポジトリ外
+   ```
+
+2. **Git情報取得関数の再読み込み**
+   ```bash
+   source scripts/prompt.sh git
+   ```
+
+3. **手動でのGit情報確認**
+   ```bash
+   git branch --show-current
+   git status --porcelain
+   ```
+
+### エイリアスが動作しない
+
+**症状**: `pss`, `psg` などのエイリアスが認識されない
+
+**解決策**:
+
+1. **エイリアスを読み込み**
+   ```bash
+   source scripts/prompt-aliases.sh
+   ```
+
+2. **エイリアスの確認**
+   ```bash
+   alias | grep ps
+   ```
+
+3. **永続化**
+   ```bash
+   echo 'source /path/to/pokeback-v2/scripts/prompt-aliases.sh' >> ~/.bashrc
+   ```
+---
